@@ -1,0 +1,211 @@
+﻿<section class="questionnaire">
+    <div class="panel panel-default message">
+        <div class="panel-heading">
+            <ol class="breadcrumb">
+                <li><a href="javascript:void(0);">医学数据管理 </a></li>
+                <li class="active">问卷调查</li>
+            </ol>
+        </div>
+        <div class="panel-body">
+            <div class="form-inline">
+                <div class="form-group">
+                    <select id="ddlQuestionSort" class="form-control input-sm"
+                            ng-model="vm.sortCollection.selectItem"
+                            ng-options="s.value as s.text for s in vm.sortCollection.data"
+                            ng-change="vm.sortCollection.OnSort()"></select>
+                </div>
+                <a href="#/questionManagement/0/0" class="btn btn-info btn-sm">+新建问卷</a>
+                <div class="input-group pull-right">
+                    <input type="text" class="form-control input-sm" placeholder="请输入问卷名称搜索" ng-model="vm.searchCollection.params.questionName" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default btn-sm btnsmquel" type="button" ng-click="vm.searchCollection.OnClickSearchQuestion()">
+                            <span class="iconfont">&#xe98a;</span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div class="form-tableth">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>问卷名称</th>
+                            <th width="100">发送数据</th>
+                            <th width="100">答卷数据</th>
+                            <th width="110">创建时间</th>
+                            <th width="100">状态</th>
+                            <th width="418">操作</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <div class="form-tabletd">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr ng-repeat="item in vm.questionCollection.data">
+                            <td ng-bind="item.name"></td>
+                            <td width="100" ng-bind="item.sendData"></td>
+                            <td width="100" ng-bind="item.data"></td>
+                            <td width="110" ng-bind="item.createDate"></td>
+                            <td width="100"><span ng-if="!item.isPublic && item.state" class="bgbtncolor-a">未发布</span><span ng-if="!item.state" class="bgbtncolor-c">已停用</span><span ng-if="item.isPublic && item.state" class="bgbtncolor-b">已发布</span></td>
+                            <td  width="400">
+                                <a ng-if="!item.isPublic" data-toggle="modal" data-target="#qsnaire" ng-click="vm.questionCollection.OnChooseQestion(item)">编辑信息</a>
+                                <a ng-if="item.isPublic || !item.state" style="color:gray; text-decoration:none;">编辑信息</a>
+
+                                <a ng-if="!item.isPublic" ng-href="#/questionManagement/{{ item.id }}/1" >编辑详情</a>
+                                <a ng-if="item.isPublic || !item.state" style="color:gray; text-decoration:none;">编辑详情</a>
+
+                                <!--<a data-toggle="modal" data-target="#preview">预览</a>-->
+                                <a ng-if="!item.isPublic" ng-href="#/questionManagement/{{ item.id }}/2">预览</a>
+                                <a ng-if="item.isPublic || !item.state" data-toggle="modal" data-target="#preview" ng-click="vm.PreviewQuestion.SetPreviewData(item)">预览</a>
+                                <!--<a href="#/questionStatistic">统计</a>-->
+                                <a style="color:gray; text-decoration:none;">统计</a>
+
+                                <a ng-if="item.isPublic && item.state" data-toggle="modal" data-target="#prompt" ng-click="vm.questionCollection.OnChooseQestion(item)">停用</a>
+                                <a ng-if="!item.isPublic || !item.state" style="color:gray; text-decoration:none;">停用</a>
+
+                                <a ng-if="!item.isPublic" data-toggle="modal" data-target="#delete" ng-click="vm.questionCollection.OnChooseQestion(item)">删除</a>
+                                <a ng-if="item.isPublic ||!item.state" style="color:gray; text-decoration:none;">删除</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--preview-->
+<div class="modal fade" id="preview">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">预览信息</h4>
+            </div>
+            <div class="modal-body">
+                <div class="carousel-text">
+                    <div class="item active" ng-if="!vm.PreviewQuestion.showQuestionBtn">
+                        <div class="listme">
+                            <div class="listme-content">
+                                <div class="listme-contenta">
+                                    <div class="listme-text">
+                                        <h3 ng-bind="vm.questionCollection.current.name"></h3>
+                                        <p ng-bind="vm.questionCollection.current.desc"></p>
+                                    </div>
+                                    <div class="listme-img">
+                                        <img src="img/u9103.png" alt="background" />
+                                    </div>
+                                    <div class="listme-btn">
+                                        <button data-slide="next" ng-click="vm.PreviewQuestion.OnClickStart()">开始答卷</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item" ng-repeat="item in vm.PreviewQuestion.previewData" ng-if="item.showQuestion">
+                        <a class="item-left pull-left" href="javascript:void(0);" ng-click="vm.PreviewQuestion.OnChoosePrevAnswer(item)" ng-if="(vm.PreviewQuestion.showQuestionBtn && !item._isTop)">
+                            <div class="circle-left"><img src="img/mion1.png"></div>
+                        </a>
+                        <a class="item-right pull-right" href="javascript:void(0);" ng-click="vm.PreviewQuestion.OnChooseNextAnswer(item)" ng-if="(vm.PreviewQuestion.showQuestionBtn && !item._isBottom && !item.selectItem)">
+                            <div class="circle-right"><img src="img/mion2.png"></div>
+                        </a>
+                        <div class="listme">
+                            <div class="listme-content">
+                                <div class="listme-contents">
+                                    <div class="listme-text">
+                                        <h4>{{vm.PreviewQuestion.No}}、{{ item.title }}  <label ng-if="item.tip">({{item.tip}})</label></h4>
+                                    </div>
+                                    <div class="listme-btn">
+                                        <div class="listme-group" ng-repeat="item2 in item.answerCollection.data">
+                                            <label ng-click="vm.PreviewQuestion.OnChooseAnswer(item, item2)" ng-class="item2.selectedClass ? 'actived' : ''"><p>{{ item2.title }}</p></label>
+                                        </div>
+                                    </div>
+                                    <div class="listme-footer" ng-if="(item.selectItem) ||  (item.isAnswer && vm.PreviewQuestion.previewCount == vm.PreviewQuestion.count  && vm.PreviewQuestion.previewData[vm.PreviewQuestion.previewCount-1] == item)">
+                                        <label ng-click="vm.PreviewQuestion.Success()" style="cursor:pointer">提交问卷</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center"><button class="btn btn-warning" ng-click="vm.DialogCollection.Preview.Hide()">确定</button></div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!--qsnaire-->
+<div class="modal fade" id="qsnaire">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="myModalLabel" href="#/questionManagement">编辑信息</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><span>*</span>问卷名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model="vm.questionCollection.current.name" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><span style="visibility: hidden;">*</span>问卷编号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model="vm.questionCollection.current.code" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><span style="visibility: hidden;">*</span>问卷说明</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="6" ng-model="vm.questionCollection.current.desc"></textarea>
+                            <p class="help-block">提示:问卷说明不能超过1000个字符</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center"><button class="btn btn-warning" ng-click="vm.questionCollection.OnClickEditSubject()">保存</button></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--prompt-->
+<div class="modal fade" id="prompt" class="modal-naire">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">停用提示</h4>
+            </div>
+            <div class="modal-body">
+                <h4>确定要停用吗？停用后健管师服务平台将无法使用当前问卷</h4>
+                <div class="text-right">
+                    <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" ng-click="vm.questionCollection.OnClickStopQuestion()">确定</button>
+                    <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--delete-->
+<div class="modal fade" id="delete" class="modal-naire">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">删除提示</h4>
+            </div>
+            <div class="modal-body">
+                <h4>确定要删除吗？删除后将无法找回</h4>
+                <div class="text-right">
+                    <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" ng-click="vm.questionCollection.OnClickDeleteQuestion()">确定</button>
+                    <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

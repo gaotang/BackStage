@@ -1,0 +1,259 @@
+#sidebar-menu {
+    border-right: none;
+}
+
+    #sidebar-menu .input-group,
+    #sidebar-menu .nav {
+        border-right: 1px solid #DDD;
+    }
+
+.sidebar-nav {
+    width: 540px;
+    height: auto;
+    position: relative;
+}
+
+    .sidebar-nav .nav {
+        width: 240px;
+    }
+
+.clickbtn {
+    border-bottom: 2px solid #ff9900;
+    font-weight: bold;
+}
+
+.clickbtncolor {
+    color: #ff9900;
+}
+
+#serviceMain input[type=checkbox] {
+    width: 16px;
+    height: 16px;
+}
+/*---------关联root页面选型卡---------*/
+#massageList .panel-body .clickspan,
+#root .panel-body .clickspan {
+    font-size: 18px;
+    font-weight: bold;
+    position: relative;
+    top: -2px;
+    z-index: 2;
+    height: 50px;
+    line-height: 50px;
+}
+
+#massageList .panel {
+    border: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+#massageList .panel-body {
+    padding: 8px;
+}
+    /*---------关联root页面选型卡---------*/
+    #massageList .panel-body > span,
+    #root .panel-body > span {
+        display: inline-block;
+        border: 1px solid #ddd;
+        border-bottom: 1px solid #fff;
+        margin-right: -5px;
+        color: #339900;
+        width: 100px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        margin-bottom: -3px;
+        cursor: pointer;
+    }
+
+.tableup {
+    min-width: 883px;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+    .tableup .form-inline > div {
+        margin-bottom: 10px;
+    }
+
+    .tableup .form-inline .form-control {
+        margin-right: 15px;
+        margin-left: 15px;
+    }
+
+    .tableup .form-inline .input-group {
+        margin-right: 15px;
+        width: 194px;
+    }
+
+    .tableup textarea {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+#inlines select {
+    width: 179px;
+}
+
+#inlines2 select {
+    width: 153px;
+}
+
+#inlines2 .multiselect {
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+    width: 153px;
+}
+
+.tableup .table-bordered th {
+    text-align: center;
+    background: #66CC00;
+    color: #fff;
+    font-size: 16px;
+}
+
+.tableup .table-bordered a {
+    cursor: pointer;
+    color: red;
+    text-decoration: underline;
+}
+
+#notes img {
+    width: 18px;
+}
+
+.checks input[type=checkbox] {
+    visibility: hidden;
+}
+/*------------notes except------------*/
+#messageAdd .modal-body {
+    padding: 20px 30px;
+}
+
+#notes .modal-dialog {
+    width: 400px;
+}
+
+#notes .modal-body {
+    padding: 15px;
+    height: 400px;
+    overflow-y: auto;
+}
+
+#notes table td {
+    text-align: left;
+}
+
+    #notes table td .clearfix {
+        height: 100%;
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+        #notes table td .clearfix div {
+            display: inline-block;
+            vertical-align: middle;
+            width: 300px;
+        }
+
+        #notes table td .clearfix span {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+#except .modal-body {
+    padding: 30px;
+}
+
+    #except .modal-body h4 {
+        margin: 20px;
+    }
+
+#plan th, #plan td {
+    border: none;
+}
+
+#plan .input-group {
+    width: 192px;
+}
+
+#plan .dropdown {
+    width: 192px;
+    margin-left: -158px;
+}
+
+#plan th {
+    width: 100px;
+}
+
+    #plan th span,
+    #colored {
+        color: red;
+    }
+
+.tableup .form-inline .hide-native-select {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.multiselect-container {
+    max-height: 180px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-left: 0px;
+}
+
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:focus,
+.dropdown-menu > .active > a:hover {
+    background: #F5F5F5;
+    color: #000;
+}
+
+/**********************************/
+input.ng-pristine
+,textarea.ng-pristine 
+,select.ng-pristine 
+{
+    /*从未输入过*/
+    background-color: white;
+}   
+
+input.ng-dirty {
+    /*输入过*/
+    /*background-color: lightyellow;*/
+    background-color: white;
+}
+
+input.ng-valid {
+    /*有效的*/
+    /*background-color: lightgreen;*/
+    background-color: white;
+}
+
+input.ng-invalid
+,textarea.ng-invalid
+,select.ng-invalid
+,button.ng-invalid
+,div.ng-invalid
+{
+    /*无效的*/
+    /*background-color: pink;*/
+    /*border-color: #f05050;*/
+}
+
+#inlines2 .btn-group .multiselect-selected-text{
+        display:inline-block;
+        margin-right:5px;
+        max-width: 165px; 
+        overflow: hidden; 
+        text-overflow: ellipsis;
+        float:left;
+}
+
+#inlines2 .btn-group .btn{
+        text-align:right;
+}

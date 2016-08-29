@@ -1,0 +1,148 @@
+<div class="crumb clearfloat">
+			<h2>客户机构调整</h2>
+			<form class="navbar-form navbar-right">
+				<div class="form-group">
+					<div class="input-group">            
+	            		<input type="search" class="form-control" placeholder="姓名/手机号/员工号" ng-model="searchVal">
+			            <span class="input-group-btn">
+			                <button class="btn btn-default" type="button" ng-click="searchResult()">
+                                <span class="iconfont">&#xe98a;</span>
+			                </button>
+			            </span>            
+	            	</div>
+				</div>		        
+			</form>   			
+		</div>		
+		<section class="content">				
+            <div class="panel panel-default customerList">
+			    <div class="panel-heading">	
+			    	<form class="form-inline">			  
+					    <div class="checkbox">
+						    <label>
+						      <input type="checkbox"> 勾选全部
+						    </label>
+					    </div>
+					    <select class="form-control" ng-model="defaultSelectValue" ng-options="s.Id as s.Name for s in serviceDeptItems">
+						</select>					  	
+					    <button type="submit" class="btn btn-default">确认</button>
+					</form>			  		  
+			    </div>
+				<div class="panel-body pad-lr">
+				  	<div class="table">
+					    <table class="table table-hover">
+					    	<thead>
+								<tr>
+								  	<th width="60">选择</th>
+								  	<th>姓名</th>
+								  	<th>性别</th>
+								  	<th>用户ID</th>
+								  	<th>年龄</th>
+								  	<th>出生日期</th>
+								  	<th>所属单位</th>
+								  	<th>健康管理师</th>
+								  	<th>服务机构</th>	
+								</tr>
+							</thead>
+							<tbody>								
+								<tr ng-repeat="customer in customers">
+								  	<td>
+								  	  <div class="checkbox">
+								        <label>
+								          <input type="checkbox">
+								        </label>
+								      </div>
+								  	</td>
+								  	<td>{{customer.Cname}}</td>
+								  	<td>{{customer.GenderFormat()}}</td>
+								  	<td>{{customer.AccountId}}</td>
+								  	<td>25</td>
+								  	<td>{{customer.Birthday}}</td>
+								  	<td>上海好卓数据服务有限公司</td>	
+								  	<td>王世淳</td>
+								  	<td>{{customer.ServiceDeptName}}</td>
+								</tr>
+							</tbody>
+						</table>
+						<tm-pagination class="pull-right" conf="paginationConf"></tm-pagination>						
+					</div>					
+				</div>
+			</div>	    
+		</section>
+		
+		<!--groupEdit-->
+		<div class="modal fade" id="groupEdit" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+						<h4 class="modal-title">编辑分组</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="groupName">分组名称</label>
+							<input type="text" class="form-control" value="高血压组" id="groupName"/>
+						</div>
+						<div class="form-group">
+							<label>将分组客户移到下列分组中</label>
+							<select class="form-control">
+								<option>请选择分组</option>
+								<option>糖尿病组</option>
+								<option>肿瘤指标异常组</option>
+								<option>血脂异常组</option>
+								<option>重大阳性组</option>
+								<option>各项指标正常组</option>
+								<option>其他组</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>分组类型</label>
+							<select class="form-control">
+								<option>请选择分组类型</option>
+								<option>0</option>
+								<option>1</option>								
+							</select>
+						</div>
+						<div class="form-group">
+							<label>智能分组条件</label>
+							<textarea class="form-control" rows="5">智能分组条件</textarea>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" data-dismiss="modal"> 保存 </button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!--groupAdd-->
+		<div class="modal fade" id="groupAdd" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+						<h4 class="modal-title">新增分组</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="addGroupName">分组名称</label>
+							<input type="text" class="form-control" placeholder="输入分组名称" id="addGroupName"/>
+						</div>						
+						<div class="form-group">
+							<label>分组类型</label>
+							<select class="form-control">
+								<option>请选择分组类型</option>
+								<option>0</option>
+								<option>1</option>								
+							</select>
+						</div>
+						<div class="form-group">
+							<label>智能分组条件</label>
+							<textarea class="form-control" rows="5">智能分组条件</textarea>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" data-dismiss="modal"> 保存 </button>
+					</div>
+				</div>
+			</div>
+		</div>

@@ -1,0 +1,183 @@
+<section class="excel">
+    <div class="panel panel-default packet">
+        <div class="panel-heading">
+            <h4 class="pull-left"><strong>常用短语</strong></h4>
+            <div class="navbar-form pull-right">
+                <!-- <input type="checkbox" class="checkbox" ng-change="GetDefaultList()" ng-model="default" />
+                <span>默认常用短语</span> -->
+                <button class="btn btn-success btn-sm phrase" ng-click="AddPhrase()" data-toggle="modal" data-target="#phrase" >添加常用短语</button>
+                <div class="input-group">
+                    <input type="text" class="form-control input-sm" ng-model="searchInput" ng-keyup="myKeyup($event)"
+                    placeholder="请输入要搜索的关键字">
+                    <span class="input-group-addon" >
+                        <span class="iconfont" ng-click="SearchName(searchInput,true)">&#xe98a;</span>
+                    </span>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-body usually">
+            <aside class="pull-left" id="pull_left">
+                <div class="column">
+                    <div class="column-head">项目名称</div>
+                    <div class="column-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="请输入搜索项目">
+                            <span class="input-group-addon"><span class="iconfont">&#xe98a;</span></span>
+                        </div>
+                    </div>
+                    <div class="column-main" >
+                        <div data-toggle="collapse" data-parent="#accordion"  href="#collapseOne" ng-click="ChangeSumImg()">
+                            <img id="sideImg" src="img/u1564.png" class="Redbtn" data-toggle="modal"  data-target="#agencyEdit"  /> 全部
+                            <span ng-bind="sum"></span>
+                        </div>
+                        <div id="collapseOne" class="collapse">
+                            <ul class="floding" ng-repeat="item in group">
+                                <li>
+                                    <img src="img/u3596.png" alt="图标">
+                                    <a href="javascript:void(0)" ng-click="getListHandler(item.ItemName)">{{item.ItemName}}</a>
+                                    <span ng-bind="item.Count"></span>
+                                    <img class="pull-right" src="img/ico04.png" alt="图标" data-toggle="modal" data-target="#bluepencil" ng-click="EditItemName(item)" />
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <div class="usually-table">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>关键词</th>
+                        <th>内容</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr ng-repeat="phraseItem in phraseItems">
+                        <td width="120">{{phraseItem.KeyWord}}</td>
+                        <td class="tr_bdd">{{phraseItem.Content}}</td>
+                        <td width="100">
+                            <img src="img/ico04.png" ng-click="EditPhrase(phraseItem)" alt="图标" data-toggle="modal" data-target="#editor" />
+                            <button class="btn btn-warning btn-xs" ng-show="phraseItem.IsEnabled" ng-click="EnableSubmit(phraseItem)">禁用</button>
+                            <button class="btn btn-success btn-xs" ng-show="!phraseItem.IsEnabled" ng-click="EnableSubmit(phraseItem)">启用</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--bluepencil-->
+<div class="modal fade" id="bluepencil" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                <h3 class="modal-title">编辑项目名称</h3>
+            </div>
+            <div class="modal-body">
+                <form class="form" role="form">
+                    <div class="form-group">
+                        <label for="name"><h4>原项目名称:</h4></label>
+                        <input type="text" class="form-control" id="name" ng-model="oldItem.ItemName" placeholder="问候语" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="name"><h4>更改为:</h4></label>
+                        <input type="text" class="form-control" id="name" ng-model="oldItem.newItemName" placeholder="请输入修改后的项目名">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer button-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal"> 取消 </button>
+                <button type="button" class="btn btn-success" ng-click="EditItemNameSubmit(oldItem  )">  提交 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--phrase-->
+        <div class="modal fade" id="phrase" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                        <h3 class="modal-title">添加常用短语</h3>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form" role="form">
+                            <h4 class="definition">项目名称：</h4>
+                            <div class="input-group">
+
+                                <input type="text" class="form-control" ng-model="addPhrase.ItemName" placeholder="项目名称">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" >
+                                        <li ng-repeat="item in group">
+                                            <a href="javascript:void(0)" ng-click="AddPhraseInputSubmit(item.ItemName)" ng-bind="item.ItemName"></a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="name"><h4>关键词：</h4></label>
+                                <input type="text" class="form-control" id="name" ng-model="addPhrase.KeyWord" placeholder="请输入关键词">
+                            </div>
+                            <div class="form-group">
+                                <label for="name">
+                                    <h4 class="pull-left">内容：</h4>
+                                    <span class="help-block pull-left">
+                                        <input type="checkbox"  ng-true-value="true" ng-false-value="false" ng-model="addPhrase.IsDefault" />
+                                        是否设为常用默认短语
+                                    </span>
+                                </label>
+                                <textarea class="form-control" ng-model="addPhrase.Content" placeholder="添加常用短语内容" cols="3"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" ng-click="AddSubmit()"> 保存 </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+<!--editor-->
+<div class="modal fade" id="editor" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                <h3 class="modal-title">编辑常用短语</h3>
+            </div>
+            <div class="modal-body">
+                <form class="form" role="form">
+                    <div class="form-group">
+                        <label for="name"><h4>项目名称：</h4></label>
+                        <select class="form-control" ng-model="editPhrase.ItemName" ng-options="s.ItemName as s.ItemName for s in group">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="name"><h4>关键词：</h4></label>
+                        <input type="text" class="form-control" id="name" ng-model="editPhrase.KeyWord" placeholder="请输入关键词">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">
+                                    <h4 class="pull-left">内容：</h4>
+                                    <span class="help-block pull-left">
+                                        <input type="checkbox" ng-true-value="true" ng-false-value="false" ng-model="editPhrase.IsDefault" />是否设为常用默认短语
+                                    </span>
+                                </label>
+                        <textarea class="form-control" placeholder="添加常用短语内容" ng-model="editPhrase.Content" cols="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="EditSubmit()"> 保存 </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,151 @@
+<section class="excel" id="root">
+	<div class="panel panel-default rootpanel">
+		<div class="panel-heading">
+			<h3>短信推广统计<small>剩余&nbsp;&nbsp;<span class="navsider" ng-bind="smsMargin"></span>&nbsp;&nbsp;条信息可发送</small>
+			</h3>
+		</div>
+		<div class="panel-body"> 
+			<span class="clickspan">机构统计</span> 
+			<span style="display: none;">计划统计</span>					
+			<div class="rootdiv">
+				<div class="form-inline clearfix">	
+					<span>机构:</span>
+					<span ng-bind=""></span>
+					<select class="form-control input-sm selectinput" ng-model="deptID" ng-options="s.Id as s.Name for s in deptList" palceholder="请选择要查询的机构"></select>
+					<input type="text" id="startDate" class="form-control input-sm " ng-model="startDate" readonly style="background: #FFFFFF" /> →
+					<input type="text" id="endDate" class="form-control input-sm " ng-model="endDate" readonly style="background: #FFFFFF" />
+					<button class="btn btn-success btn-sm" ng-click="QuerySubmit()">查询</button>			        		
+				</div>						
+				<div class="row">					    	
+					<div class="col-md-6">         				    	
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th>日期</th>
+									<th>发送量</th>
+									<th>点击量</th>
+									<th>下载量</th>
+									<th>注册量</th>
+									<th>点击率</th>
+									<th>下载率</th>
+									<th>注册率</th>
+								</tr>	
+							</thead>
+							<tbody ng-repeat="dataItem in dataList">
+								<tr>
+									<td ng-bind="dataItem.Date"></td>
+									<td ng-bind="dataItem.SmsSendCount"></td>
+									<td ng-bind="dataItem.Hits"></td>
+									<td ng-bind="dataItem.Dloaded"></td>
+									<td ng-bind="dataItem.Registrations"></td>
+									<td ng-bind="dataItem.ClickRate"></td>
+									<td ng-bind="dataItem.DownloadRate"></td>
+									<td ng-bind="dataItem.EnrollmentRate"></td>
+								</tr>
+							</tbody>
+							<!-- <tfoot align="center">
+								<tr>
+									<td>总计</td>
+									<td>123567</td>
+									<td>11000</td>
+									<td>1100</td>
+									<td>220</td>
+									<td>80%</td>
+									<td>40%</td>
+									<td>10%</td>
+								</tr>
+							</tfoot> -->
+						</table>
+					</div>
+					<div class="col-md-6">
+						<div id="container" class="rootimg"></div>
+					</div> 					        
+				</div>       			
+			</div> 
+
+			<!-- <div class="rootdiv" style="display: none;">
+				<div class="form-inline clearfix">
+					<div class="pull-left">
+						<span>计划:</span>
+						<select class="form-control input-sm">
+							<option>--请选择--</option>
+							<option>全部</option>
+							<option>A计划</option>
+							<option>B计划</option>
+							<option>C计划</option>
+						</select>	
+						<span>机构:</span>
+						<select class="form-control input-sm">
+							<option>--请选择--</option>
+							<option>全部</option>
+							<option>上海好卓</option>
+							<option>河南省直</option>
+							<option>云南鑫湖</option>
+						</select>
+					</div>
+					<div class="pull-right">
+						<input type="text" class="form-control input-sm" />↔
+						<input type="text" class="form-control input-sm" />
+						<button class="btn btn-success btn-sm">查询</button>
+						<button class="btn btn-default btn-sm">导出</button>
+					</div>
+				</div>
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th colspan="4">机构</th>
+							<th>发送量</th>
+							<th>点击量</th>
+							<th>下载量</th>
+							<th>注册量</th>
+							<th colspan="3">转化率</th>
+						</tr>
+						<tr>
+							<td>计划</td>
+							<td>开始时间</td>
+							<td>结束时间</td>
+							<td>机构</td>
+							<td>累积/昨日</td>
+							<td>累积/昨日</td>
+							<td>累积/昨日</td>
+							<td>累积/昨日</td>
+							<td>点击率</td>
+							<td>下载率</td>
+							<td>注册率</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>A计划</td>
+							<td>2016-01-01</td>
+							<td>2016-02-02</td>
+							<td>云南鑫湖医院</td>
+							<td>1024  /  129</td>
+							<td>1024  /  129</td>
+							<td>1024  /  129</td>
+							<td>1024  /  129</td>
+							<td>28%</td>
+							<td>28%</td>
+							<td>28%</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td>B计划小计</td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>3017  /  387</td>
+							<td>3017  /  387</td>
+							<td>3017  /  387</td>
+							<td>3017  /  387</td>
+							<td>28%</td>
+							<td>28%</td>
+							<td>28%</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>	
+		</div> -->
+	</div>
+</section>
