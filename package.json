@@ -8,13 +8,18 @@
     "gulp hz bms",
     "gulp pattern"
   ],
-  "homepage": "https://github.com/gaotang/gulp-demos",
-  "repository": "https://github.com/gaotang/gulp-demos",
+  "homepage": "https://github.com/gaotang/BackStage",
+  "repository": "https://github.com/gaotang/BackStage",
   "author": "gaotang <qq23745038@126.com>",
   "scripts": {
     "start": "gulp"
   },
-  "dependencies": {
+  "licenses": "BSD",
+  "devDependencies": {
+    "eslint": "^3.2.2",
+    "eslint-config-standard": "^5.3.5",
+    "eslint-plugin-promise": "^2.0.0",
+    "eslint-plugin-standard": "^2.0.0",
     "gulp": "^3.9.1",
     "gulp-clean-css": "^2.0.7",
     "gulp-concat": "^2.6.0",
@@ -31,12 +36,5 @@
     "jshint": "^2.9.1",
     "jshint-stylish": "^2.1.0",
     "run-sequence": "^1.1.5"
-  },
-  "licenses": "BSD",
-  "devDependencies": {
-    "eslint": "^3.2.2",
-    "eslint-config-standard": "^5.3.5",
-    "eslint-plugin-promise": "^2.0.0",
-    "eslint-plugin-standard": "^2.0.0"
   }
 }
