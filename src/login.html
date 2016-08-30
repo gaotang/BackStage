@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html ng-controller="loginCtrl" class="indexhtml">
+	<head>
+		<meta charset="UTF-8">
+		<title ng-bind="title"></title>
+		<link rel="stylesheet" href="/css/reset.css"/>
+		<link rel="stylesheet" href="/css/css.css"/>
+		<script type="text/javascript" src="/scripts/js/lib/require.js" data-main="/scripts/js/main.js"></script>
+		<script>
+	     require(['view/login'], function () {
+
+         })
+        </script>
+	</head>
+	<body id="loginBg">
+		<div id="loginBox">
+			<div id="logo">
+				<p><img src="img/logo.png"/></p>
+				<h1 ng-bind="title"></h1>
+			</div>
+			<form>
+				<div class="inputBox"><img src="img/ico01.png">
+				<input id="userName" type="text" placeholder="账号/证件号/手机号">
+				</div>
+				<div class="inputBox"><img src="img/ico02.png">
+				<input id="userPassword" type="password" placeholder="初始密码">
+				</div>
+				<div class="inputBox clearfloat">
+				<img src="img/ico03.png">
+				<input id="userCode" type="text" placeholder="验证码">
+				<div id="code"></div>
+				</div>
+				<button type="submit" id="btnLogin" ng-click="loginHandler()">登录</button>
+				<div align="center">
+				<input type="checkbox" id="rePassword" checked="checked"/> 记住我</div>
+			</form>
+		</div>
+		<footer>上海好卓数据版权所有</footer>
+	</body>
+</html>

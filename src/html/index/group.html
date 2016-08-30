@@ -1,0 +1,91 @@
+<div class="crumb clearfloat">
+			<h2>分组管理</h2>
+		</div>
+		<section class="content">							
+			<div class="row">
+                <div class="col-md-3 col-sm-4 col-zd group" ng-repeat="group in groups">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4>{{group.Name}}</h4>
+                            <p>{{group.Count}}</p>
+                            <p>服务总数</p>
+                        </div>
+                        <div class="panel-body">
+                            <span data-toggle="modal" data-target="#groupEdit" ng-click="editGroup()">编辑</span>
+                            <span>
+                                <a href="#/groupEdit/{{group.ID}}/{{group.encodedName}}">编辑规则</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-4 col-zd group">
+	    			<div class="panel panel-default">
+					  <div class="panel-heading">
+					  	<p class="newGroup">+</p>	
+					  </div>
+					  <div class="panel-body">
+					    <p class="red" data-toggle="modal" data-target="#groupAdd" ng-click="AddGroup()">新建</p>						    
+					  </div>
+					</div>
+	    		</div>                 		
+	    	</div>			
+		</section>
+		
+		<!--groupEdit-->
+		<div class="modal fade" id="groupEdit" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+						<h4 class="modal-title">编辑分组</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">							
+							<label for="groupName">分组名称</label>
+							<input type="text" class="form-control" id="groupName" ng-model="GroupName"/>							
+						</div>
+						<!-- <div class="form-group">
+							<label>新分组名称</label>
+							<select class="form-control" ng-model="GroupId"
+							ng-options="s.ID as s.Name for s in groups">
+							</select>
+						</div> -->
+						<div class="form-group">							
+							<label>分组类型</label>
+							<select class="form-control" ng-model="GroupType" 
+							ng-options="s.value as s.text for s in GroupTypes">												
+							</select>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" ng-click="saveGroup()"> 保存 </button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!--groupAdd-->
+		<div class="modal fade" id="groupAdd" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span>×</span>
+						</button>
+						<h4 class="modal-title">新增分组</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="addGroupName">分组名称</label>
+							<input type="text" class="form-control" placeholder="输入分组名称" id="addGroupName" ng-model="addGroupName"/>
+						</div>						
+						<div class="form-group">
+							<label>分组类型</label>
+							<select class="form-control" ng-model="GroupType" ng-options="s.value as s.text for s in GroupTypes"></select>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" ng-click="AddSubGroup()"> 保存 </button>
+					</div>
+				</div>
+			</div>
+		</div>

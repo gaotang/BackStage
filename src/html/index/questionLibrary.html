@@ -1,0 +1,137 @@
+﻿<div class="crumb clearfloat">
+    <h2><a class="btn btn-info btn-sm" ng-click="vm.subjectCollection.OpenSubjectPanel()">+添加</a></h2>
+    <form class="navbar-form navbar-right">
+        <div class="form-inline">
+            <div class="form-group">
+                <select class="form-control input-sm" ng-model="vm.searchCollection.params.searchState.selectItem" ng-options="s.value as s.text for s in vm.searchCollection.params.searchState.data"></select>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control input-sm" placeholder="搜索编号" ng-model="vm.searchCollection.params.searchCode" />
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control input-sm" placeholder="请输入搜索关键词" ng-model="vm.searchCollection.params.searchTitle" />
+                <span class="input-group-btn">
+                    <button class="btn btn-default btn-sm btnsmquel" type="button" ng-click="vm.searchCollection.OnClickSearchSubject()">
+                        <span class="iconfont">&#xe98a;</span>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </form>
+</div>
+<section class="content qubank">
+    <div class="text-right" ng-if="vm.subjectCollection.count > 0"><span>搜索结果：<label ng-bind="vm.subjectCollection.count">0</label>条 </span></div>
+    <div class="panel panel-default" ng-repeat="item in vm.subjectCollection.data">
+        <div class="panel-body" ng-class="{'qubackground':!item.state}">
+            <div class="panel-text">
+                <div class="panel-section">
+                    <ul>
+                        <li>
+                            <h4>{{item.code}}、 {{item.title}} <span ng-if="item.tip">( {{item.tip}} )</span></h4>
+                        </li>
+                        <li ng-repeat="answer in item.answerCollection.data">
+                            <input ng-if="item.type == 1" type="radio"><input ng-if="item.type == 2" type="checkbox">
+                            <span ng-bind="answer.title"></span>
+                        </li>
+                    </ul>
+                </div>
+                <div ng-if="!item.state" class="panel-crumb btn" data-toggle="modal" data-target="#delete" ng-click="vm.subjectCollection.OpenStateDialog(item)">
+                    停<br />用
+                </div>
+                <div ng-if="item.state" class="panel-crumb btn" data-toggle="modal" data-target="#prompt" ng-click="vm.subjectCollection.OpenStateDialog(item)">
+                    启<br />用
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default" ng-if="vm.subjectCollection.current._isAdd">
+        <div class="panel-heading">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label>题目编号:</label>
+                    <input type="text" class="form-control input-sm" ng-model="vm.subjectCollection.current.code" />
+                </div>
+                <div class="form-group">
+                    <label>选择题型:</label>
+                    <input type="radio" name="selectSubjectType" checked ng-click="vm.subjectCollection.current.changeType(1)" />单选
+                    <input type="radio" name="selectSubjectType" ng-click="vm.subjectCollection.current.changeType(2)" />多选
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" ng-model="vm.subjectCollection.current.tipCheck" />填写提示
+                    <input type="text" class="form-control input-sm" placeholder="请输入提示" ng-if="vm.subjectCollection.current.tipCheck" ng-model="vm.subjectCollection.current.tip"
+                    />
+                </div>
+                <span class="pull-right iconfont" ng-click="vm.subjectCollection.CloseSubjectPanel()">&#xe683;</span>
+                <span class="pull-right">当前题型:<label ng-bind="vm.subjectCollection.current._typeTip"></label></span>
+            </div>
+            <label class="help-block">建议使用字母+点+数字，1~20个字符</label>
+        </div>
+        <div class="panel-body">
+            <ul>
+                <li>
+                    <div id="editor1" class="form-control pull-left">
+                        <h4><input type="text" class="form-control input-sm" ng-attr-placeholder="{{ vm.subjectCollection.current.placeholder }}" ng-model="vm.subjectCollection.current.title" /></h4>
+                    </div>
+                    <div class="clearfix"></div>
+                </li>
+                <li ng-repeat="item in vm.subjectCollection.current.answerCollection.data">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <input ng-attr-type="{{item.type}}" disabled />
+                            <input type="text" class="form-control" ng-attr-placeholder="{{ item.placeholder }}" ng-model="item.title" />
+                            <span class="iconfont" ng-click="vm.subjectCollection.current.answerCollection.OnPrev(item)" ng-if="!item._isTop" title="向上移动">&#xe63f;</span>
+                            <span class="iconfont" ng-click="vm.subjectCollection.current.answerCollection.OnNext(item)" ng-if="!item._isBottom"
+                                  title="向下移动">&#xe634;</span>
+                            <span class="iconfont" ng-click="vm.subjectCollection.current.answerCollection.OnDeleteSelf(item)" title="删除">&#xe624;</span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <span class="iconfont" ng-click="vm.subjectCollection.current.answerCollection.OnAdd()" title="添加新项" style="cursor:pointer;">&#xe9ad;</span>
+                </li>
+            </ul>
+        </div>
+        <div class="panel-footer text-center">
+            <button class="btn btn-success btn-sm" ng-click="vm.subjectCollection.OnSubmit()">确认</button>
+        </div>
+    </div>
+    <div id="anchorBottom" style="height:260px;"></div>
+</section>
+
+<!--delete-->
+<div class="modal fade modal-naire" id="delete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title ">启用题目确认</h4>
+            </div>
+            <div class="modal-body text-center">
+                <h4>确认要启用吗？</h4>
+                <div class="text-right">
+                    <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" ng-click="vm.subjectCollection.OnChangeState()">确定</button>
+                    <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--prompt-->
+<div class="modal fade modal-naire" id="prompt">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">停用题目确认</h4>
+            </div>
+            <div class="modal-body text-center">
+                <h4>确认要停用吗？</h4>
+                <div class="text-right">
+                    <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" ng-click="vm.subjectCollection.OnChangeState()">确定</button>
+                    <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

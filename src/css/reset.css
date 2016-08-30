@@ -1,0 +1,40 @@
+body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,
+dl,dt,dd,ul,ol,li,
+fieldset,legend,button,input,textarea,
+th,td{
+	margin: 0;
+	padding: 0;
+}
+
+body{ font:14px/1 "Microsoft Yahei";}
+
+header,footer,nav,menu,section,aside,article{
+	margin: 0;
+	padding: 0;
+	display: block;
+}
+
+ul, ol { list-style: none; }
+
+img{
+	border: none;
+	vertical-align: text-bottom;
+}
+
+a,a:hover { text-decoration: none; }
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+button,input,select,textarea{ font-size: 100%;}
+input:focus{outline: none; }
+
+.clearfloat:after{	
+	display: block;
+	content: "";
+	clear: both;
+	visibility: hidden;
+	height: 0;
+}
+.clearfloat{zoom:1}/*zoom(IE专有属性)可解决ie6,ie7浮动问题 */

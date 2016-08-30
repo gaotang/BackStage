@@ -1,0 +1,109 @@
+#account .panel{
+	border: none;
+	box-shadow: none;
+}
+#account .message{
+    margin: 65px 15px 20px 15px;
+}
+#account .panel-heading{
+	padding: 0;
+	border-bottom: 0;
+	background: #fff;
+}
+#account .panel-heading ul li{
+	float: left;
+	margin-right: -5px;
+	padding: 10px 15px;
+	background: #fff;
+	border: 1px solid #ccc;
+	border-bottom: 0;
+}
+#account .panel-heading ul li a{
+    color: #666;
+}
+#account .panel-heading ul li.active{
+	border-top: 2px solid #33CC00;
+}
+#account .panel-heading ul li.active a{
+	color: #83C327;
+    text-decoration:none;
+}
+#account .panel-body{
+	border: 0;
+	border-top: 1px solid #ddd;
+	padding: 10px 0;
+}
+#account-a .form-inline input,
+#account-a .form-inline select,
+#account-a .form-inline button{
+	margin:0 10px;
+	width: 120px;
+}
+.btnaccd{
+	margin: 10px 0;
+}
+.btnaccd:focus{
+	border-color: #449d44;
+}
+.number table th{
+	font-size: 16px;
+	text-align: center;
+	background: #EFEFEF;
+}
+.content-login img{
+  width: 100%;
+  height: 100%;
+}
+/*-----------material----------*/
+#material table{
+	width: 100%;
+	padding: 0 40px;
+}
+#material table td .form-group{
+    margin-left: 15px;
+    margin-right: 15px;
+}
+/*-----------edit--------------*/
+#modal-kyi .modal-content,#kyi .modal-content{
+	width: 540px;
+	margin: 0 auto;
+}
+#kyi .help-block,
+#material .help-block{
+	margin-bottom: 0;
+	font-size: 12px;
+}
+#kyi input[type*=radio],
+#material input[type*=radio]{
+	margin-right: 5px;
+	width: 16px;
+	height: 16px;
+	vertical-align: -3px;
+}
+#kyi .kyiradio,#material .kyiradio{
+	margin-left: 20px;
+}
+#kyi  .kyi-content{
+    margin: 200px auto;
+}
+/*------------people--------------*/
+#power .modal-content{
+	width: 400px;
+	margin: 0 auto;
+}
+#power .table td{
+	text-align: left;
+}
+#power input[type*=checkbox],
+#power input[type*=radio]{
+	width: 16px;
+	height: 16px;
+	vertical-align: -3px;
+	margin-right: 5px;
+}
+#power .table{
+	margin-bottom: 2px;
+}
+#power p{
+	font-size: 12px;
+}

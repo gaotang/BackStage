@@ -1,0 +1,490 @@
+<aside id="sidebar-menu" class="pull-left">	 
+	<h2><span id="state" class="clickbtn">体检机构</span><small id="stop">已停用</small><img class="pull-right" src="img/ico05.png" data-toggle="modal" data-target="#messageAdd" ng-click="addDept()"/></h2>
+	<div class="input-group">
+		<input type="text" class="form-control" placeholder="请输入搜索的机构">
+		<span class="input-group-btn">
+			<button class="btn btn-default" type="button">
+                <span class="iconfont">&#xe98a;</span>
+			</button>
+		</span>
+	</div>
+	<div class="sidebar-nav clearfix">
+		<ul class="nav pull-left" >
+			<li ng-repeat="item in deptListInfo.enableDeptList">
+				<div>{{item.Name}}<img src="img/stop.png" data-toggle="modal" data-target="#disable" ng-click="disableDeptMethod(item)"/></div>
+			</li>
+			
+		</ul>
+		<ul class="nav pull-right" >
+			<li ng-repeat="item in deptListInfo.disableDeptList">
+				<div>
+					<span class="sidebar-text1">{{item.Name}}</span>
+					<img src="img/start.png" data-toggle="modal" data-target="#stater"
+					ng-click="ableDeptMethod(item)"/>
+				</div>
+			</li>
+			
+		</ul>
+	</div>	
+</aside>	
+<!--serviceMain-->
+<section id="serviceMain">								
+	<div class="searchBar">
+		<h2>短信推送<small>剩余&nbsp;&nbsp;<span class="navsider" ng-bind="AutoSend.SMSCount"></span>&nbsp;&nbsp;条信息可发送</small></h2>			
+	</div>
+	<div id="massageList">		
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<span class="clickspan">手动发送</span> 
+				<span>自动发送</span>
+				<span>重新发送</span>
+				<!--自动发送-->
+				<div class="tableup">
+					<div class="form-inline">
+						<div>
+							<span><span id="colored">*</span>主题:</span>
+							<input type="text" class="form-control" placeholder="请填写推送主题"/>
+							<span>发送时间:</span>
+							<input type="text" class="form-control"/>
+						</div>
+						<div>
+							<span><span id="colored">*</span>机构:</span>						        	
+                            <select class="form-control">
+                                <option>全部 </option>
+                                <option>河南省直三院</option>
+                                <option>云南鑫湖医院</option>
+                                <option>广州中西医结合医院</option>
+                            </select>						        
+							<span><span id="colored">*</span>获取报告时间:</span>
+							<input type="text" class="form-control"/>
+							<input type="checkbox"/>未下载APP&nbsp;&nbsp;&nbsp;
+							<input type="checkbox"/>未注册APP
+						</div>
+					</div>
+					<div class="form-group">
+						<span for="name"><span id="colored">*</span>短信内容</span>
+						<textarea rows="5" class="form-control" rows="3"></textarea>
+					</div>
+					<div class="clearfix">
+						<button class="pull-left btn btn-info" data-toggle="modal" data-target="#notes">选择模板</button>
+						<div class="pull-right">
+							<button class="btn btn-success">保存为模板并发送</button>
+							<button class="btn btn-success">发送</button>
+						</div>
+					</div>
+				</div>
+				
+				<!--手动发送-->
+				<div class="tableup" style="display: none;">
+					<div class="form-inline" id="inlines2">
+						<div>
+							<span>推广计划:</span>
+                            <select class="form-control input-sm" ng-model="AutoSend.SelectPlan" ng-options="s.value as s.text for s in AutoSend.PlanDDL"></select>
+							<span>推送机构:</span>
+                            <select id="AutoSend_SelectDeptDDL" class="multipleSelect" multiple="multiple" ng-model="AutoSend.SelectDept"></select>
+                            <!--<select multiple="multiple" ng-model="AutoSend.SelectDept" ng-options="s.value as s.text for s in AutoSend.DeptDDL"></select>-->
+							<span>执行状态:</span>
+                            <select class="form-control input-sm" ng-model="AutoSend.SelectStatus" ng-options="s.value as s.text for s in AutoSend.StatusDDL"></select>
+						</div>
+						<div>
+							<span>开始时间:</span>
+                            <input type="text" class="form-control input-sm datepicker" id="autoSend_StartDate" ng-model="AutoSend.SelectStartDate"
+                                   placeholder="请输入日期">
+							<span>结束时间:</span>
+                            <input type="text" class="form-control input-sm datepicker" id="autoSend_EndDate" ng-model="AutoSend.SelectEndDate"
+                                   placeholder="请输入日期">
+                            <button class="btn btn-success btn-sm" ng-click="AutoSend.OnSearchClick()">查询</button>
+                            <button class="btn btn-default btn-sm" ng-click="AutoSend.OnSearchResetClick()">重置</button>
+                            <button class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#plan">+创建计划</button>
+							<!--<select class="form-control">
+								<option>--选择时间--</option>
+							</select>
+							<button class="btn btn-success">查询</button>
+							<button class="btn btn-success pull-right" data-toggle="modal" data-target="#plan">+创建计划</button>-->
+						</div>
+					</div>
+					<table class="table table-bordered">
+						<tr>
+							<th>计划</th>
+							<th>内容</th>
+							<th>机构</th>
+							<th>开始时间</th>
+							<th>结束时间</th>
+							<th>重复周期</th>
+							<th>执行状态</th>
+						</tr>
+                        <tr ng-repeat="item in AutoSend.List">
+                            <td ng-bind="item.Title"></td>
+                            <td ng-attr-title="{{ item.Content }}" ng-bind="item.Content | stringSub"></td>
+                            <td ng-attr-title="{{ item.DeptName }}" ng-bind="item.DeptName | stringSub:5">
+                            </td>
+                            <td ng-bind="item.StartDate | clearTime"></td>
+                            <td ng-bind="item.EndDate | clearTime"></td>
+                            <td ng-bind="item.ReWeek"></td>
+                            <td>
+                                <a ng-show="item.Status" data-toggle="modal" ng-attr-data-target="{{ item.Status | fomartDataTarget }}" ng-click="AutoSend.OnPlanStopClick(item.Id);" ng-bind="item.Status | fomartBoolean | fomartString:'YN2'"></a>
+                                <label ng-hide="item.Status" ng-bind="item.Status | fomartBoolean | fomartString:'YN2'"></label>
+                            </td>
+                        </tr>
+					</table>
+				</div>
+				
+				<!--重新发送-->
+				<div class="tableup" style="display: none;">
+					<div class="form-inline" id="inlines">
+				        	<div>
+				        		<span>推送方式:</span>
+				        		<select class="form-control">
+				        			<option>全部</option>
+				        			<option>自动</option>
+				        			<option>手动</option>
+				        		</select>						        								        		
+				        		<span>推送机构:</span>
+                                <select class="form-control">
+                                    <option>全部 </option>
+                                    <option>河南省直三院</option>
+                                    <option>云南鑫湖医院</option>
+                                    <option>广州中西医结合医院</option>
+                                </select>
+					            <span>推送人:</span>
+				        		<select class="form-control">
+				        			<option>全部</option>
+				        			<option>小刘</option>
+				        			<option>小宋</option>
+				        			<option>小孙</option>
+				        		</select>
+				        	</div>
+				        	<div>
+				        		<span>开始时间:</span>
+					            <input type="text" class="form-control"/>
+					            <span>结束时间:</span>
+					            <input type="text" class="form-control"/>
+					            <span>推送主题/计划:</span>
+				        		<select class="form-control">
+				        			<option>全部 </option>
+				        			<option>计划A</option>
+				        			<option>计划B</option>
+				        			<option>计划C</option>
+				        			<option>计划D</option>
+				        			<option>计划E</option>
+				        		</select>
+				        	</div>
+				        	<div>
+				        		<span>推送状态:</span>
+				        		<select class="form-control">
+				        			<option>全部</option>
+				        			<option>成功</option>
+				        			<option>失败</option>
+				        		</select>
+				        		<span>手机号码:</span>
+				        		<input type="text" class="form-control" placeholder="请输入手机号"/>					        		
+				        		<button class="btn btn-success">查询</button>
+				        		<button class="btn btn-success pull-right" data-toggle="modal" data-target="#send">再次发送</button>
+				        	</div>
+				        </div>
+				        <table class="table table-bordered">
+				        	<thead>
+				        		<tr>
+				        			<th><input type="checkbox"/></th>
+				        			<th>推送时间</th>
+				        			<th>推送主题/计划</th>
+				        			<th width="150">短信内容</th>
+				        			<th>推送人</th>
+				        			<th>推送方式</th>
+				        			<th>推送机构</th>
+				        			<th>接收人</th>
+				        			<th>接收人手机号</th>
+				        			<th>推送状态</th>
+				        			<th>推送次数</th>
+				        			<th>再次发送</th>
+				        		</tr>
+				        	</thead>
+				        	<tbody>
+				        		<tr>
+				        			<td><input type="checkbox"/></td>
+				        			<td>2016.4.23 </td>
+				        			<td>下载APP类</td>
+				        			<td>还在苦等体检报告？下载优健康APP，查询体检报告只需3天！</td>
+				        			<td>小刘</td>
+				        			<td>自动</td>
+				        			<td>全部机构</td>
+				        			<td>张三</td>
+				        			<td>156098765443</td>
+				        			<td>失败</td>
+				        			<td>1</td>
+				        			<td><a data-toggle="modal" data-target="#send">发送</a></td>
+				        		</tr>
+				        		<tr>
+				        			<td><input type="checkbox"/></td>
+				        			<td>2016.4.23 </td>
+				        			<td>下载APP类</td>
+				        			<td>还在苦等体检报告？下载优健康APP，查询体检报告只需3天！</td>
+				        			<td>小刘</td>
+				        			<td>自动</td>
+				        			<td>全部机构</td>
+				        			<td>张三</td>
+				        			<td>156098765443</td>
+				        			<td>失败</td>
+				        			<td>1</td>
+				        			<td><a data-toggle="modal" data-target="#send">发送</a></td>
+				        		</tr>
+				        		<tr>
+				        			<td><input type="checkbox"/></td>
+				        			<td>2016.4.23 </td>
+				        			<td>下载APP类</td>
+				        			<td>还在苦等体检报告？下载优健康APP，查询体检报告只需3天！</td>
+				        			<td>小刘</td>
+				        			<td>自动</td>
+				        			<td>全部机构</td>
+				        			<td>张三</td>
+				        			<td>156098765443</td>
+				        			<td>失败</td>
+				        			<td>1</td>
+				        			<td>无</td>
+				        		</tr>
+				        		<tr>
+				        			<td><input type="checkbox"/></td>
+				        			<td>2016.4.23 </td>
+				        			<td>下载APP类</td>
+				        			<td>还在苦等体检报告？下载优健康APP，查询体检报告只需3天！</td>
+				        			<td>小刘</td>
+				        			<td>自动</td>
+				        			<td>全部机构</td>
+				        			<td>张三</td>
+				        			<td>156098765443</td>
+				        			<td>失败</td>
+				        			<td>1</td>
+				        			<td><a data-toggle="modal" data-target="#send">发送</a></td>
+				        		</tr>
+				        		<tr>
+				        			<td><input type="checkbox"/></td>
+				        			<td>2016.4.23 </td>
+				        			<td>下载APP类</td>
+				        			<td>还在苦等体检报告？下载优健康APP，查询体检报告只需3天！</td>
+				        			<td>小刘</td>
+				        			<td>自动</td>
+				        			<td>全部机构</td>
+				        			<td>张三</td>
+				        			<td>156098765443</td>
+				        			<td>失败</td>
+				        			<td>1</td>
+				        			<td><a data-toggle="modal" data-target="#send">发送</a></td>
+				        		</tr>
+				        	</tbody>
+				        </table>
+				   </div>
+				</div>
+			</div>
+		</div>		
+	</div>
+</section>	
+
+
+<!--agencyAdd-->
+<div class="modal fade" id="messageAdd" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+				<h4 class="modal-title">添加</h4>
+			</div>
+			<div class="modal-body clearfix">
+				<form class="form-horizontal form-validation">						
+					<div class="form-group">
+						<label for="lastname" class="col-sm-3 control-label"><h4>名称：</h4></label>
+						<div class="col-sm-9">
+							<select class="form-control" id="optionDeptId" ng-model="optionDeptList.Id" ng-options="s.Id as s.Name for s in optionDeptList">
+							</select>
+						</div>
+					</div>	
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-warning" data-dismiss="modal"> 关闭 </button>
+				<button type="button" class="btn btn-success" ng-click="addDeptCommit()"> 保存 </button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--plan-->
+<div class="modal fade" id="plan" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+                <form name="myformPlan" novalidate class="form-validation">
+                    <table class="table">
+                        <tr>
+                            <th><span>*</span>名称:</th>
+                            <td colspan="2">
+                                <input name="planName" type="text" class="form-control" placeholder="请输入名称" ng-model="AutoSend.PlanDialog.Name" required maxlength="20" />
+                                <!--<span ng-show="myformPlan.planName.$error.required">名称不能为空！</span>
+                                <span ng-show="myformPlan.planName.$error.unsafe">不能包含特殊字符！</span>
+                                <span ng-show="myformPlan.planName.$error.maxlength">名称的最大长度不能超过20个字符！</span>-->
+                            </td>
+                        </tr>
+                        <tr co>
+                            <th><span>*</span>内容:</th>
+                            <td colspan="4">
+                                <textarea name="planContent" class="form-control" ng-model="AutoSend.PlanDialog.Content" required maxlength="200"></textarea>
+                                <!--<span ng-show="myformPlan.planContent.$error.required">内容不能为空！</span>-->
+                                <p class="text-right">您已输入<span class="navsider" ng-bind="AutoSend.PlanDialog.Content.length" ng-show="AutoSend.PlanDialog.Content.length"></span><span class="navsider" ng-hide="AutoSend.PlanDialog.Content.length">0</span>字</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td colspan="4">
+                                <button class="btn btn-info btn-sm pull-left" data-toggle="modal" data-target="#notes">选择模板</button>
+                                <button class="btn btn-warning btn-sm pull-right" ng-click="AutoSend.PlanDialog_OnSaveTemplateClick()">另存为模板</button>
+                                <div class="clearfix"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span>*</span>机构:</th>
+                            <td colspan="4">
+                                <div class="text-left">
+                                    <select id="AutoSend_PlanDeptDDL" name="planDept" class="multipleSelect" multiple="multiple" ng-model="AutoSend.PlanDialog.DeptName"></select>
+                                    <!--<span ng-show="myformPlan.planDept.$error.required">所选机构不能为空！</span>-->
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span>*</span>开始时间:</th>
+                            <td>
+                                <input name="planStartDate" type="text" class="form-control datepicker" id="autoSend_Plan_StartDate" ng-model="AutoSend.PlanDialog.StartDate" readonly required datetime
+                                       placeholder="请输入日期" style="background-color: #ffffff;" />
+                                <!--<span ng-show="myformPlan.planStartDate.$error.required">开始时间不能为空！</span>
+                                <span ng-show="myformPlan.planStartDate.$error.datetime">不合法的时间类型！</span>-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span>*</span>结束时间:</th>
+                            <td>
+                                <input name="planEndDate" type="text" class="form-control datepicker" id="autoSend_Plan_EndDate" ng-model="AutoSend.PlanDialog.EndDate" readonly required datetime
+                                       placeholder="请输入日期" style="background-color: #ffffff;" />
+                                <!--<span ng-show="myformPlan.planEndDate.$error.required">结束时间不能为空！</span>
+                                <span ng-show="myformPlan.planStartDate.$error.datetime">不合法的时间类型！</span>-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><span>*</span>每天重复:</th>
+                            <td>
+                                <input name="planTime" type="text" class="form-control datepicker" id="autoSend_Plan_Time" ng-model="AutoSend.PlanDialog.Time" required 
+                                       placeholder="请输入时间">
+                                <!--<span ng-show="myformPlan.planTime.$error.required">每天重复不能为空！</span>-->
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+			<div class="modal-footer">
+                <button type="button" class="btn btn-success btn-sm" ng-click="AutoSend.PlanDialog_OnSaveClick()" > 保存计划 </button>
+                <button type="button" class="btn btn-default btn-sm" ng-click="AutoSend.PlanDialog_Reset()"> 重置计划 </button>
+			</div>					
+		</div>
+	</div>
+</div>	
+
+<!--notes-->
+<div class="modal fade" id="notes" tabindex="-1" role="dialog" 
+aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+			<h4 class="modal-title">模板选择</h4>
+		</div>
+		<div class="modal-body">
+			<table class="table table-hover">
+                <tr ng-repeat="item in AutoSend.Notes_List">
+                    <td ng-click="AutoSend.OnNoteClick(item)" >
+                        <div class="clearfix">
+                            <div >{{ $index+1 }}.{{ item.Content }}</div>
+                            <span class="checks" >
+                                <label for="checkbox1">
+                                    <img src="img/stop.png" ng-hide="item.Checked" alt="" ng-click="AutoSend.OnNoteClick(item)" />
+                                    <img src="img/start.png" ng-show="item.Checked" alt="" ng-click="AutoSend.OnNoteClick(item)" />
+                                </label>
+                            </span>
+                        </div>
+                    </td>
+                </tr>	
+			</table>
+		</div>
+        <div class="modal-footer">
+            <!--<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="AutoSend.TemplateDialog_OnDeleteTemplateClick()"> 删除该模板 </button>-->
+            <button type="button" class="btn btn-primary" ng-click="AutoSend.TemplateDialog_OnDeleteTemplateClick()" ng-disabled="AutoSend.NoteDialog.Id == 0"> 删除该模板 </button>
+            <button type="button" class="btn btn-success" ng-click="AutoSend.TemplateDialog_OnSaveTemplateClick()" ng-disabled="AutoSend.NoteDialog.Id == 0"> 确定选择 </button>
+        </div>
+	</div>
+</div>
+</div>
+
+<!-- disable-->
+<div class="modal fade" id="disable" tabindex="-1" role="dialog" 
+aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+	<div class="modal-content disable">
+		<div class="modal-body text-center">
+			<h3>确认要禁用吗？</h3>        
+			<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+			<button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" ng-click="disableDeptCommit()">确定</button>	    
+		</div>
+	</div>
+</div>
+</div>
+
+<!-- stater-->
+<div class="modal fade" id="stater" tabindex="-1" role="dialog" 
+aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+	<div class="modal-content disable">
+		<div class="modal-body text-center">
+			<h3>确认要启用吗？</h3>        
+			<button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+			<button type="button" class="btn btn-success" data-dismiss="modal" ng-click="ableDeptCommit()">确定</button>	    
+		</div>
+	</div>
+</div>
+</div>
+
+<!-- except-->
+<div class="modal fade" id="except" tabindex="-1" role="dialog" 
+aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-body text-center">
+			<h4>还有计划在执行中</h4>  
+			<h4>如需停用请先结束正在执行中的计划</h4>
+		</div>
+	</div>
+</div>
+</div>
+
+<!-- ending-->
+<div class="modal fade" id="ending" tabindex="-1" role="dialog" 
+aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+	<div class="modal-content disable">
+        <div class="modal-body text-center">
+            <h3>该计划执行中，是否终止？</h3>
+            <button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="AutoSend.EndingDialog_OnSaveClick()">确定</button>
+        </div>
+	</div>
+</div>
+</div>
+
+<!-- send-->
+<div class="modal fade" id="send" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content disable">
+            <div class="modal-body text-center">
+                <h3>确定要再次发送吗？</h3>        
+	            <button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+	            <button type="button" class="btn btn-success" data-dismiss="modal">确定</button>	    
+            </div>
+        </div>
+    </div>
+</div>

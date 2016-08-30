@@ -1,0 +1,205 @@
+﻿<section class="append">
+    <div class="panel panel-default message">
+        <div class="panel-heading">
+            <ol class="breadcrumb">
+                <li><a href="javascript:void(0);">医学数据管理 </a></li>
+                <li><a href="#/questionDetail">问卷调查 </a></li>
+                <li class="active">{{(vm.QuestionCollection.id == 0?"创建新":"编辑")}}问卷</li>
+            </ol>
+        </div>
+        <div class="panel-body">
+            <!--选项卡头部 -->
+            <ul class="steps" id="steps">
+                <li ng-class="vm.TabsCollection.currentPageIndex == 0 ? 'active' : ''">添加基本信息</li>
+                <li ng-class="vm.TabsCollection.currentPageIndex == 1 ? 'active' : ''">添加题目选项</li>
+                <li ng-class="vm.TabsCollection.currentPageIndex == 2 ? 'active' : ''">预览问卷</li>
+                <li ng-class="vm.TabsCollection.currentPageIndex == 3 ? 'active' : ''">发布问卷</li>
+            </ul>
+            <div class="form-append">
+                <!--选项卡内容 -->
+                <div class="tab-content">
+                    <div class="tab-pane" id="frist" ng-class="vm.TabsCollection.currentPageIndex == 0 ? 'active' : ''">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span>*</span>问卷名称：</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" ng-model="vm.QuestionCollection.name" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">问卷编号：</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" ng-model="vm.QuestionCollection.code" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">问卷说明：</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" rows="8" ng-model="vm.QuestionCollection.desc"></textarea>
+                                    <p class="help-block">提示:问卷说明不能超过1000个字符</p>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-warning btn-sm" ng-click="vm.AddQuestion.OnEditSubmit()" ng-if="vm.QuestionCollection.id > 0">编辑</button>
+                                <button type="button" class="btn btn-warning btn-sm" ng-click="vm.AddQuestion.OnSubmit()" ng-if="vm.QuestionCollection.id == 0">添加</button>
+                                <!--<button class="btn btn-default" ng-click="vm.TabsCollection.CurrentPage(1)">下一步</button>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="second" ng-class="vm.TabsCollection.currentPageIndex == 1 ? 'active' : ''">
+                        <ul>
+                            <li><h3 ng-bind="vm.QuestionCollection.name"></h3></li>
+                            <li><span ng-bind="vm.QuestionCollection.desc"></span></li>
+                            <li>
+                                <div class="panel nairetext">
+                                    <div class="panel-heading">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" ng-model="vm.EditQuestion.searchCollection.params.searchSearchSubjectByQuestionKey" />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button" ng-click="vm.EditQuestion.searchCollection.OnClickSearchSubject()">
+                                                    <span class="iconfont">&#xe98a;</span>搜索
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <ul>
+                                                <li ng-repeat="item in vm.EditQuestion.subjectCollection.queryData" ng-click="vm.EditQuestion.searchCollection.OnClickChecked(item)">{{ item.code }}、{{ item.title }}<input class="pull-right" type="checkbox" ng-model="item.checked" style="margin-top:0px;" ng-click="$event.stopPropagation()" /></li>
+                                            </ul>
+                                            <div class="text-center btn btn-success btn-sm" ng-click="vm.EditQuestion.searchCollection.OnChooseSubject()">确定</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="panel-table" ng-repeat="item in vm.EditQuestion.subjectCollection.viewData">
+                                        <table>
+                                            <tr>
+                                                <td>{{($index+1)}}、{{ item.title }} <label ng-if="item.tip">({{item.tip}})</label></td>
+                                                <td>
+                                                    <input type="checkbox" ng-model="item.isAnswer" />此题不答
+                                                    <span class="iconfont glyphicon_a" ng-if="!item._isTop" title="向上移动" ng-click="vm.EditQuestion.OnPrev(item)">&#xe969;</span>
+                                                    <span class="iconfont glyphicon_a" ng-if="!item._isBottom" title="向下移动" ng-click="vm.EditQuestion.OnNext(item)">&#xe9b5;</span>
+                                                    <span class="iconfont glyphicon_b" ng-if="!item._isTop" title="置顶" ng-click="vm.EditQuestion.OnTop(item)">&#xe63f;</span>
+                                                    <span class="iconfont glyphicon_b" ng-if="!item._isBottom" title="置底" ng-click="vm.EditQuestion.OnBottom(item)">&#xe634;</span>
+                                                    <span class="iconfont glyphicon_c" ng-click="vm.EditQuestion.OnDeleteSelf(item)">&#xe624;</span>
+                                                </td>
+                                            </tr>
+                                            <tr ng-repeat="child in item.answerCollection.data">
+                                                <td>
+                                                    <input type="radio" disabled ng-if="item.type == 1" />
+                                                    <input type="checkbox" disabled ng-if="item.type == 2" />
+                                                    <span>{{ child.title }}</span>
+                                                </td>
+                                                <td>
+                                                    <div class="form-inline">
+                                                        <div class="form-group">
+                                                            <select class="form-control input-sm"
+                                                                    ng-model="child.selectedSkipSubjectId"
+                                                                    ng-options="s.id as s.title for s in child.skipSubject"></select>
+                                                        </div>
+                                                        <div class="input-group">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default" type="button" ng-click="vm.EditQuestion.SubScore(child)">
+                                                                    -
+                                                                </button>
+                                                            </span>
+                                                            <input type="text" class="form-control input-sm" style="width: 40px" ng-change="vm.EditQuestion.ValidScore(child)" ng-model="child.score">
+                                                            <span class="input-group-btn">
+                                                                <button class="btn btn-default" type="button" ng-click="vm.EditQuestion.AddScore(child)">
+                                                                    +
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                        <span>分</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="text-center"><button class="btn btn-info" type="button" ng-show="vm.EditQuestion.searchCollection.isShow" ng-click="vm.EditQuestion.OnSubmit()">保存问卷</button></li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-pane" id="third" ng-class="vm.TabsCollection.currentPageIndex == 2 ? 'active' : ''">
+                        <div class="carousel-text">
+                            <div class="item active" ng-if="!vm.PreviewQuestion.showQuestionBtn">
+                                <div class="listme">
+                                    <div class="listme-content">
+                                        <div class="listme-contenta">
+                                            <div class="listme-text">
+                                                <h3 ng-bind="vm.QuestionCollection.name"></h3>
+                                                <p ng-bind="vm.QuestionCollection.desc"></p>
+                                            </div>
+                                            <div class="listme-img">
+                                                <img src="img/u9103.png" alt="background" />
+                                            </div>
+                                            <div class="listme-btn">
+                                                <button data-slide="next" ng-click="vm.PreviewQuestion.OnClickStart()">开始答卷</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item" ng-repeat="item in vm.PreviewQuestion.previewData" ng-if="item.showQuestion">
+                                <a class="item-left pull-left" href="java:void(0);" ng-click="vm.PreviewQuestion.OnChoosePrevAnswer(item)" ng-if="(vm.PreviewQuestion.showQuestionBtn && !item._isTop)">
+                                    <div class="circle-left"><img src="img/mion1.png"></div>
+                                </a>
+                                <a class="item-right pull-right" href="javascript:void(0);" ng-click="vm.PreviewQuestion.OnChooseNextAnswer(item)" ng-if="(vm.PreviewQuestion.showQuestionBtn && !item._isBottom && !item.selectItem)">
+                                    <div class="circle-right"><img src="img/mion2.png"></div>
+                                </a>
+                                <div class="listme">
+                                    <div class="listme-content">
+                                        <div class="listme-contents">
+                                            <div class="listme-text">
+                                                <h4>{{vm.PreviewQuestion.No}}、{{ item.title }}  <label ng-if="item.tip">({{item.tip}})</label></h4>
+                                            </div>
+                                            <div class="listme-btn">
+                                                <div class="listme-group" ng-repeat="item2 in item.answerCollection.data">
+                                                    <label ng-click="vm.PreviewQuestion.OnChooseAnswer(item, item2)" ng-class="item2.selectedClass ? 'actived' : ''"><p>{{ item2.title }}</p></label>
+                                                </div>
+                                            </div>
+                                            <div class="listme-footer" ng-if="(item.selectItem) || (item.isAnswer && vm.PreviewQuestion.previewCount == vm.EditQuestion.subjectCollection.viewCount && vm.PreviewQuestion.previewData[vm.PreviewQuestion.previewCount-1] == item)">
+                                                <label ng-click="vm.PreviewQuestion.Success()" style="cursor:pointer">提交问卷</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-default" ng-click="vm.TabsCollection.CurrentPage(1)">上一步</button>
+                            <button class="btn btn-info" ng-click="vm.TabsCollection.CurrentPage(3)">预览确认</button>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="fourth" ng-class="vm.TabsCollection.currentPageIndex == 3 ? 'active' : ''">
+                        <div class="text-center">
+                            <h4>首诊问卷已经预览成功，可以提供给健康管理师使用，请发布问卷！</h4>
+                            <button class="btn btn-default" type="button" ng-click="vm.TabsCollection.CurrentPage(2)">上一步</button>
+                            <button class="btn btn-info" type="button" ng-click="vm.PublicQuestion.OnClickPublicQuestion()">发布问卷</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!--prompt-->
+<div class="modal fade modal-naire" id="prompt">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <h4>提交成功，是否需要再次确认？</h4>
+                <div class="text-center">
+                    <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" ng-click="vm.PreviewQuestion.SuccessOK()">确定</button>
+                    <button type="button" class="btn btn-warning btn-sm" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

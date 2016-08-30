@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>优健康后台管理系统</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+        <link href="css/bootstrap-multiselect.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/reset.css"/>
+		<link rel="stylesheet" href="css/css.css"/>
+        <link rel="stylesheet" href="css/usually.css">
+        <link rel="stylesheet" href="css/message.css">
+        <link rel="stylesheet" href="css/account.css">
+        <link rel="stylesheet" href="css/questionnaire.css">
+		<link rel="stylesheet" type="text/css" href="css/jquery-ui-timepicker-addon.css" />
+		<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css" />
+        <link rel="stylesheet" href="css/iconfont.css">
+
+		<script type="text/javascript" src="/scripts/js/lib/require.js" data-main="/scripts/js/main.js"></script>
+		<script>
+	     require(['view/index'], function () {
+         })
+        </script>
+	</head>
+	<body>
+        <header ng-controller="sharedCtrl" id="header" class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <div class="navbar-brand">
+                    <img src="img/ulogo.png" width="24" height="33" />
+                    <h1>BMS</h1>
+                </div>
+            </div>
+            <div class="navgroup">
+                <ul class="nav navbar-nav">
+                    <li ng-repeat="item in powersDist">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" ng-bind="item.name">
+
+                        </a>
+                        <div class="dropdown-menu dropdown-frist">
+                            <div class="arrow-down"></div>
+                            <ul>
+                                <li ng-repeat="itemChild in item.children">
+                                    <a ng-if="itemChild.checked" ng-href="{{itemChild.action}}" ng-bind="itemChild.name"></a>
+                                    <a ng-if="!itemChild.checked" style="background:silver;color:#fff; font-weight:blod" ng-bind="itemChild.name" ng-click="vm.OnClickNav()"></a>
+                                </li>
+                                <!--<li><a href="#/userManagement">账号管理</a></li>
+                                <li><a href="#/journaled">接口日志查询</a></li>-->
+                            </ul>
+                        </div>
+                    </li>
+                    <!--<li class="active">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">医学数据管理</a>
+                        <div class="dropdown-menu dropdown-second">
+                            <div class="arrow-down"></div>
+                            <ul>
+                                <li><a href="#/group">分组管理</a></li>
+                                <li><a href="#/usually">常用短语</a></li>
+                                <li><a href="#/customlist">客户机构调整</a></li>
+                                <li><a href="#/consultStatistic">咨询量统计</a></li>
+                                <li><a href="#questionLibrary">问卷题库</a></li>
+                                <li class="dropdown-submenu"><a href="#questionDetail">问卷调查</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">运营管理</a>
+                        <div class="dropdown-menu dropdown-frist">
+                            <div class="arrow-down"></div>
+                            <ul>
+                                <li><a href="#/message">短信推广</a></li>
+                                <li><a href="#/messageStatistic">短信推广统计</a></li>
+                            </ul>
+                        </div>
+                    </li>-->
+                    <!--<li>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            统计分析
+                        </a>
+                    </li>-->
+                </ul>
+            </div>
+            <div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" id="tooluser" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="img/tool.png" alt="tool" width="20" />
+                            <p>设置</p>
+                        </a>
+                        <div class="dropdown-menu">
+                            <div class="arrow-down"></div>
+                            <ul>
+                                <!--<li><a href="javascript:void(0);">密码管理</a></li>-->
+                                <li><a href="javascript:void(0)" ng-click="logOut()">安全退出</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a href="javascript:void(0)" class="lastlsit"><span class="userlabel" ng-bind="userName"></span></a></li>
+                </ul>
+            </div>
+        </header>
+
+		<div class="wrapper">
+		<div ng-view></div>
+		</div>
+	</body>
+
+</html>

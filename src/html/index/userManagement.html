@@ -1,0 +1,385 @@
+﻿<section class="excel" id="account">
+    <div class="panel panel-default message">
+        <div class="panel-heading">
+            <ul>
+                <li class="active"><a href="#account-a" data-toggle="tab">人员管理</a></li>
+                <li><a href="#account-b" data-toggle="tab">角色管理</a></li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div class="panel-body number">
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="account-a">
+                    <form class="form-inline">
+                        <span>姓名:</span>
+                        <input type="text" class="form-control input-sm" placeholder="请输入姓名" ng-model="vm.userMgr.searchCollection.params.Name"/>
+                        <span>角色:</span>
+                        <select class="form-control input-sm" ng-model="vm.userMgr.searchCollection.params.Roles.selectItem" ng-options="s.value as s.text for s in vm.userMgr.searchCollection.params.Roles.data">
+                        </select>
+
+                        <span>手机号:</span>
+                        <input type="text" class="form-control input-sm" placeholder="请输入手机号码" ng-model="vm.userMgr.searchCollection.params.Moblie"/>
+                        <button class="btn btn-info btn-sm" ng-click="vm.userMgr.searchCollection.OnClickSearch()">查询</button>
+                    </form>
+                    <button class="btn btn-success btn-sm btnaccd" data-toggle="modal" data-target="#material" ng-click="vm.userMgr.userCollection.addUserCollection.AddButton()">添加人员</button>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>姓名</th>
+                            <th>角色</th>
+                            <th>手机号</th>
+                            <th>身份证号</th>
+                            <!--<th>所属机构</th>-->
+                            <th>登录账号</th>
+                            <th>设置密码</th>
+                        </tr>
+
+
+                        <tr ng-repeat="item in vm.userMgr.userCollection.data">
+                            <td ng-bind="item.Cname"></td>
+                            <td ng-bind="item.Name"></td>
+                            <td ng-bind="item.Mobile"></td>
+                            <td ng-bind="item.CertificateCode"></td>
+                            <td ng-bind="item.Account"></td>
+                            <td>
+                                <a href="#" data-toggle="modal" data-target="#kyi" ng-click="vm.userMgr.OnChooseCurrent(item)">设置密码</a> /
+                                <a href="#" data-toggle="modal" data-target="#edit" ng-click="vm.userMgr.OnChooseCurrent(item)">编辑</a> /
+                                <a href="#" data-toggle="modal" data-target="#banned" ng-click="vm.userMgr.OnChooseCurrent(item)">删除</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="account-b">
+                    <button class="btn btn-success btn-sm btnaccd" data-toggle="modal" data-target="#people" ng-click="vm.roleMgr.addRoleCollection.OnChooseAddRole()">添加角色</button>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="300">名称</th>
+                                <th>描述</th>
+                                <th width="100">更新日期</th>
+                                <th width="200">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in vm.roleMgr.roleCollection.data">
+                                <td>{{item.name}}</td>
+                                <td>{{item.description}}</td>
+                                <td>{{item.modified}}</td>
+                                <td>
+                                    <a href="#" data-toggle="modal" data-target="#power" ng-click="vm.roleMgr.roleCollection.OnChooseRolePrevileges(item)">权限分配</a> /
+                                    <a href="#" data-toggle="modal" data-target="#karakters" ng-click="vm.roleMgr.editRoleCollection.OnChooseRole(item)">编辑</a> /
+                                    <a href="#" data-toggle="modal" data-target="#cut" ng-click="vm.roleMgr.editRoleCollection.OnChooseRole(item)">删除</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--material-->
+<div class="modal fade" id="material" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                <h3 class="modal-title">添加人员</h3>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="name" class="control-label col-md-3">
+                            <span class="red">*</span>姓名:
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" placeholder="请输入姓名" ng-model="vm.userMgr.userCollection.addUserCollection.current.Cname">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="control-label col-md-3">
+                            <span class="red">*</span>角色:
+                        </label>
+                        <div class="col-md-9">
+                            <select class="form-control" ng-model="vm.userMgr.current.Roles.selectItem" ng-options="s.value as s.text for s in vm.userMgr.current.Roles.data">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="control-label col-md-3">
+                            <span class="red">*</span>手机号:
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" placeholder="请输入手机号" ng-model="vm.userMgr.userCollection.addUserCollection.current.Mobile">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="control-label col-md-3">身份证号:</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" placeholder="请输入身份证" ng-model="vm.userMgr.userCollection.addUserCollection.current.CertificateCode">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="control-label col-md-3">
+                            <span class="red">*</span>登录账号:
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" placeholder="请输入登录账号" ng-model="vm.userMgr.userCollection.addUserCollection.current.Account">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="control-label col-md-3">
+                            <span class="red">*</span>密码:
+                        </label>
+                        <div class="col-md-9">
+                            <input type="password" class="form-control" placeholder="请输入密码" ng-model="vm.userMgr.userCollection.addUserCollection.current.Password" ng-disabled="vm.userMgr.userCollection.addUserCollection.current.IsCheckOnResetPwd">
+                            <p class="help-block red">英文字母大写+英文字母小写+数字的组合(不少于8个字符)</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-9 col-md-offset-3">
+                            <input type="checkbox" ng-change="vm.userMgr.userCollection.addUserCollection.IsClickPsw()" ng-model="vm.userMgr.userCollection.addUserCollection.current.IsCheckOnResetPwd"/>设置密码为Abc123456
+                            <input type="checkbox" class="kyiradio" disabled="true" ng-model="vm.userMgr.userCollection.addUserCollection.current.IsCheckAddPwd"/>登录后重置密码
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal"> 关闭 </button>
+                <button type="button" class="btn btn-success" ng-click="vm.userMgr.userCollection.addUserCollection.OnClickAddUser()"> 保存 </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--edit-->
+<div class="modal fade" id="edit" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                <h3 class="modal-title">编辑人员</h3>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="name" class="control-label col-md-3">
+                            <span class="red">*</span>姓名:
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" placeholder="请输入姓名" ng-model="vm.userMgr.current.Cname">
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="control-label col-md-3">
+                            <span class="red">*</span>角色:
+                        </label>
+                        <div class="col-md-9">
+                            <select class="form-control" ng-model="vm.userMgr.current.Roles.selectItem"  ng-options="s.value as s.text for s in vm.userMgr.current.Roles.data">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="control-label col-md-3">
+                            <span class="red">*</span>手机号:
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" placeholder="请输入手机号" ng-model="vm.userMgr.current.Mobile">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="control-label col-md-3">身份证号:</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" placeholder="请输入身份证" ng-model="vm.userMgr.current.CertificateCode">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal"> 关闭 </button>
+                <button type="button" class="btn btn-success" ng-click="vm.userMgr.userCollection.editUserCollection.OnSettingCurrent()"> 保存 </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--kyi-->
+<div class="modal fade" id="kyi" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                <h3 class="modal-title">设置密码</h3>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="name" class="control-label col-md-3">登录账号:</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" placeholder="默认展示账号不可更改" disabled="true" ng-model="vm.userMgr.current.Account">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="control-label col-md-3">
+                            <span class="red">*</span>新密码:
+                        </label>
+                        <div class="col-md-9">
+                            <input type="password" class="form-control" placeholder="请输入密码" ng-model="vm.userMgr.current.NewPassword1" ng-disabled="vm.userMgr.current.IsCheckOnResetPwd">
+                            <p class="help-block red">英文字母大写+英文字母小写+数字的组合(不少于8个字符)</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="control-label col-md-3">
+                            <span class="red">*</span>确认密码:
+                        </label>
+                        <div class="col-md-9">
+                            <input type="password" class="form-control" placeholder="请再次输入密码" ng-model="vm.userMgr.current.NewPassword2" ng-disabled="vm.userMgr.current.IsCheckOnResetPwd">
+                            <p class="help-block red">英文字母大写+英文字母小写+数字的组合(不少于8个字符)</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-9 col-md-offset-3">
+                            <input type="checkbox" ng-change="vm.userMgr.userCollection.modifyPasswrodCollection.IsClickPsw()" ng-model="vm.userMgr.current.IsCheckOnResetPwd"/>设置密码为Abc123456
+                            <input type="checkbox" class="kyiradio" disabled="true" ng-model="vm.userMgr.current.IsCheckAddPwd"/>登录后重置密码
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal"> 关闭 </button>
+                <button type="button" class="btn btn-success" ng-click="vm.userMgr.userCollection.modifyPasswrodCollection.SaveOperation()"> 保存 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--banned-->
+<div class="modal fade" id="banned" >
+    <div class="modal-dialog">
+        <div class="modal-content disable">
+            <div class="modal-body text-center">
+                <h3 class="ban">确认要删除吗？</h3>
+                <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    取消
+                </button>
+                <button type="button"  class="btn btn-success" data-dismiss="modal" ng-click="vm.userMgr.OnClickDeleteUserById()">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--people-->
+<div class="modal fade" id="people" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                <h3 class="modal-title">添加角色</h3>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="name" class="control-label col-md-3">
+                            <span class="red">*</span>名称:
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" placeholder="请输入名称" ng-model="vm.roleMgr.addRoleCollection.data.name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="control-label col-md-3">描述:</label>
+                        <div class="col-md-9">
+                            <textarea class="form-control" rows="8" ng-model="vm.roleMgr.addRoleCollection.data.description"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="vm.roleMgr.addRoleCollection.OnClickCloseAdd()"> 关闭 </button>
+                <button type="button" class="btn btn-success" ng-click="vm.roleMgr.addRoleCollection.OnClickAddRole()"> 保存 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--power-->
+<div class="modal fade" id="power" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                <h3 class="modal-title">权限分配</h3>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <tbody ng-repeat="json in powersDist">
+                        <tr>
+                            <th colspan="3">{{json.name}}</th>
+                        </tr>
+                        <tr ng-repeat="jsonChild in json.children">
+                            <td></td>
+                            <td width="200" ng-click="vm.roleMgr.roleCollection.OnClickChecked(jsonChild)"><input type="checkbox" ng-model="jsonChild.checked" ng-click="vm.roleMgr.roleCollection.OnchooseChecked($event)">{{jsonChild.name}}</td>
+                            <td width="110"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="vm.roleMgr.roleCollection.OnClickCancel()"> 取消 <tton>
+                <button type="button" class="btn btn-success" ng-click="vm.roleMgr.roleCollection.OnClickSave()"> 保存 <tton>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--karakters-->
+<div class="modal fade" id="karakters" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                <h3 class="modal-title">编辑角色</h3>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="name" class="control-label col-md-3">
+                            <span class="red">*</span>名称:
+                        </label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" placeholder="Admin" ng-model="vm.roleMgr.editRoleCollection.current.name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="control-label col-md-3">描述</label>
+                        <div class="col-md-9">
+                            <textarea class="form-control" rows="8" ng-model="vm.roleMgr.editRoleCollection.current.description"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="vm.roleMgr.editRoleCollection.OnClickClose()"> 关闭 </button>
+                <button type="button" class="btn btn-success" ng-click="vm.roleMgr.editRoleCollection.OnClickEditRole()"> 保存 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--cut-->
+<div class="modal fade" id="cut">
+    <div class="modal-dialog">
+        <div class="modal-content disable">
+            <div class="modal-body text-center">
+                <h3 class="ban">确定要删除该角色吗？</h3>
+                <button type="button" class="btn btn-warning"  data-dismiss="modal">
+                    取消
+                </button>
+                <button type="button" class="btn btn-success"  ng-click="vm.roleMgr.OnClickDeleteRoleById()">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

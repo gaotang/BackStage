@@ -1,7 +1,15 @@
 {
-  "plugins": [],
+  "extends": "standard",
+  "plugins": [
+    "standard",
+    "promise"
+  ],
   "env": {
-    "browser": true
+    "browser": true,
+    "amd": true,
+    "es6": false,
+    "node": true,
+    "mocha": true
   },
   "rules": {
     "semi": [2, "always"],

@@ -1,0 +1,416 @@
+<!--aside-->
+<aside id="sidebar-menu" class="pull-left">
+    <h2>服务机构 <img class="pull-right" src="img/ico05.png" data-toggle="modal" data-target="#agencyAdd" ng-click="AddAgent()" /></h2>
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="请输入搜索的机构">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button">
+                <span class="iconfont">&#xe98a;</span>
+            </button>
+        </span>
+    </div>
+    <ul class="nav" ng-repeat="serviceDeptItem in serviceDeptItems">
+        <li >
+            <div data-toggle="collapse" data-parent="#accordion" href="#collapseOne" >
+                <span class="iconfont">&#xe711;</span>
+                <span class="sidebar-text" ng-click="requestDoctorListHandler(serviceDeptItem.Id)">{{serviceDeptItem.Name}}</span><span ng-click="requestDoctorListHandler(serviceDeptItem.Id)">({{serviceDeptItem.DoctorCount}})</span>
+                <img src="img/ico04.png" data-toggle="modal" data-target="#agencyEdit" ng-click="EditAgent(serviceDeptItem)"/>
+            </div>
+        </li>
+    </ul>
+</aside>
+
+<!--serviceMain-->
+<section id="serviceMain">
+    <div class="searchBar">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="请搜索健管师姓名">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">
+                    <span class="iconfont">&#xe98a;</span>
+                </button>
+            </span>
+        </div>
+    </div>
+    <div class="doctorList">
+        <div class="clearfix">
+            <h3 class="pull-left" ng-bind="deptName"><small>机构人员</small></h3>
+            <button type="button" class="btn btn-success pull-right" ng-click="AddStuff()" data-toggle="modal" data-target="#staffAdd">添加员工</button>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>人员ID</th>
+                    <th>专长</th>
+                    <th>服务状态</th>
+                    <th width="100">职称</th>
+                    <th>身份证号</th>
+                    <th>手机号</th>
+                    <th>所属机构名称</th>
+                    <th>所属高级主管</th>
+                    <th>账号</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="doctorListItem in doctorListItems">
+                    <td>{{doctorListItem.UserName}}</td>
+                    <td>{{doctorListItem.PersonID}}</td>
+                    <td>{{doctorListItem.Speciality}}</td>
+                    <td>{{doctorListItem.JobStateText}}</td>
+                    <td>{{doctorListItem.PisitionName}}</td>
+                    <td>{{doctorListItem.CertificateCode}}</td>
+                    <td>{{doctorListItem.Mobile}}</td>
+                    <td>{{doctorListItem.DeptName}}</td>
+                    <td>{{doctorListItem.SuppserDoctorName}}</td>
+                    <td>{{doctorListItem.Account}}</td>
+                    <td class="edits">
+                        <span data-toggle="modal" data-target="#staffEdit" ng-click="EditStuff(doctorListItem)">编辑</span> /
+                        <span data-toggle="modal" data-target="#staffSet" ng-click="SetAccount(doctorListItem)">设置密码</span>
+                        <button type="button"  class="btn btn-warning btn-xs" ng-click="OffStuff(doctorListItem)" data-toggle="modal" data-target="#disable" ng-show="doctorListItem.IsEnabled">禁用</button>
+                        <button type="button"  class="btn btn-success btn-xs" ng-click="OffStuff(doctorListItem)" data-toggle="modal" data-target="#disable" ng-show="!doctorListItem.IsEnabled">启用</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!--agencyAdd-->
+<div class="modal fade" id="agencyAdd" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                <h4 class="modal-title">添加机构</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>机构匹配关系：</label>
+                    <input type="text" class="form-control" ng-model="agentInfo.RptDeptKey" placeholder="请输入机构匹配关系" />
+                </div>
+                <div class="form-group">
+                    <label>机构名称：</label>
+                    <input type="text" class="form-control" ng-model="agentInfo.Name" placeholder="请输入机构名称" />
+                    <!-- <p class="tip">拼音码：shanghaihaozhuo</p> -->
+                </div>
+                <div class="form-group">
+                    <label>机构地址：</label>
+                    <input type="text" class="form-control" ng-model="agentInfo.Address" placeholder="请输入机构地址" />
+                </div>
+                <div class="form-group">
+                    <label>短信推广账号:</label>
+                    <input type="text" ng-model="agentInfo.SmsAccount" class="form-control"  placeholder="请输入短信推广账号" />
+                </div>
+                <div class="form-group">
+                    <label>短信推广账号密码:</label>
+                    <input type="text" ng-model="agentInfo.SmsPassword" class="form-control"  placeholder="请输入短信推广账号密码" />
+                    <p id="tipPasswordAdd" class="tip" style="color: red;font-Size:10px;display: none;">密码应为8-20个字符的英文大写+英文小写+数字</p>
+                </div>
+                <div class="form-group">
+                    <label>短信推广机构短号:</label>
+                    <input type="text" ng-model="agentInfo.SmsShortCode" class="form-control"  placeholder="请输入短信推广机构短号" />
+                    <p id="tipShortCodeAdd" class="tip" style="color: red;font-Size:10px;display: none;">短信推广机构短号应为4位数字</p>
+                </div>
+                <div class="form-group">
+                    <label>短信推广机构签名:</label>
+                    <input type="text" ng-model="agentInfo.SmsSign" class="form-control"  placeholder="请输入短信推广机构签名" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="AddAgentSubmit()"> 保存 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--agencyEdit-->
+<div class="modal fade" id="agencyEdit" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                <h4 class="modal-title">编辑机构</h4>
+            </div>
+            <div class="modal-body">          
+                <div class="form-group">
+                    <label>机构匹配关系：</label>
+                    <input type="text" class="form-control" placeholder="请输入机构匹配关系" ng-model="agentInfo.RptDeptKey" />
+                </div>
+                <div class="form-group">
+                    <label>机构名称：</label>
+                    <input type="text" class="form-control" placeholder="请输入机构名称" ng-model="agentInfo.Name" />
+                </div>
+                
+                <div class="form-group">
+                    <label>机构地址：</label>
+                    <input type="text" class="form-control" placeholder="请输入机构地址" ng-model="agentInfo.Address" />
+                </div>
+                <div class="form-group">
+                    <label>短信推广账号:</label>
+                    <input type="text" class="form-control"  placeholder="请输入短信推广账号" ng-model="agentInfo.SmsAccount" />
+                </div>
+                <div class="form-group">
+                    <label>短信推广账号密码:</label>
+                    <input type="text" class="form-control"  placeholder="请输入短信推广账号密码" ng-model="agentInfo.SmsPassword"/>
+                    <p id="tipPasswordEdit" class="tip" style="color: red;font-Size:10px;display: none;">密码应为8-20个字符的英文大写+英文小写+数字</p>
+                </div>
+                <div class="form-group">
+                    <label>短信推广机构短号:</label>
+                    <input type="text"  class="form-control"  placeholder="请输入短信推广机构短号" ng-model="agentInfo.SmsShortCode"/>
+                    <p id="tipShortCodeEdit" class="tip" style="color: red;font-Size:10px;display: none;">短信推广机构短号应为4位数字</p>
+                </div>
+                <div class="form-group">
+                    <label>短信推广机构签名:</label>
+                    <input type="text"  class="form-control"  placeholder="请输入短信推广机构签名" ng-model="agentInfo.SmsSign"/>
+                </div>
+            </div>        
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="EditAgentSubmit(agentInfo)"> 保存 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--staffSet-->
+<div class="modal fade" id="staffSet" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="btnCloseSetPannel" type="button" class="close"  data-dismiss="modal"><span>×</span></button>
+                <h4 class="modal-title">设置密码</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>登录账号：</label>
+                    <input type="text" class="form-control disBackground" ng-model="AccountSetItem.account" id="userName" disabled />
+                </div>
+                <div class="form-group">
+                    <label>密码：</label>
+                    <input type="password" class="form-control" ng-model="AccountSetItem.newPassword" placeholder="请输入密码" />
+                </div>
+                <div class="form-group">
+                    <label>确认密码：</label>
+                    <input type="password" class="form-control" ng-model="AccountSetItem.rePassword" placeholder="请再次输入密码" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="SetAccountSubmit(AccountSetItem)"> 保存 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--staffAdd-->
+<div class="modal fade" id="staffAdd" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="btnCloseAddPannel" type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                <h4 class="modal-title">添加员工</h4>
+            </div>
+            <div class="modal-body clearfix">
+                <div class="form-group pull-left">
+                    <label>姓名: </label>
+                    <input type="text" class="form-control" ng-model="AddItem.UserName" placeholder="请输入姓名"/>
+                </div>
+
+                <div class="form-group pull-right">
+                    <label>服务上限：</label>
+                    <input type="text" class="form-control" ng-model="AddItem.ServiceLimit" placeholder="请输入服务上限" />
+                </div>
+
+                <div class="form-group pull-right" style="display: none;">
+                    <label>人员ID：</label>
+                    <input type="text" class="form-control disBackground"  ng-model="AddItem.PersonID" placeholder="请输入人员ID" disabled />
+                </div>
+
+                <div class="form-group pull-left">
+                    <label>专长：</label>
+                    <input type="text" class="form-control" ng-model="AddItem.Speciality" placeholder="请输入专长" />
+                </div>
+                <div class="form-group pull-right">
+                    <label>职称：</label>
+                    <!-- <span ng-bind="AddItem.postionCategoryValue"></span> -->
+                    <select class="form-control" ng-model="AddItem.postionCategoryValue" ng-options="s.Code as s.Name for s in postionCategoryItems" ></select>
+                </div>
+                <div class="form-group pull-left">
+                    <label>证件号：</label>
+                    <input type="text" class="form-control" ng-model="AddItem.CertificateCode" placeholder="请输入身份证号" />
+                </div>
+                <div class="form-group pull-right">
+                    <label>手机号：</label>
+                    <input type="text" class="form-control" ng-model="AddItem.Mobile" placeholder="请输入手机号" />
+                </div>
+
+                <div class="form-group pull-left">
+                    <label>服务状态:</label>
+                    <select class="form-control" ng-model="AddItem.JobTypeDefaultValue" ng-options="s.value as s.text for s in JobTypes"></select>                   
+                </div>  
+
+                <div class="form-group pull-right">
+                    <label>所属机构名称:</label>
+                    <input type="text" class="form-control disBackground"  ng-model="AddItem.DeptName" disabled />          
+                    <!-- <select class="form-control" ng-model="AddItem.DeptID" ng-options="s.Id as s.Name for s in serviceDepts"/> -->
+                </div>
+
+                <div class="form-group pull-left">
+                    <label>所属高级主管：</label>            
+                    <select class="form-control supperDoctor" ng-model="AddItem.PId" ng-options="s.ID as s.Name for s in supperDoctorList"></select>
+                </div>
+
+                <div class="form-group pull-right">
+                    <label>登录账号：</label><span id="tip"></span>
+                    <input type="text" class="form-control" ng-model="AddItem.Account" ng-blur="IsAccountExist()" placeholder="请输入登录账号"  />              
+                </div>
+
+                <div class="form-group pull-left">
+                    <label>初始密码：</label>
+                    <input type="password" class="form-control" ng-model="AddItem.Password" placeholder="请输入初始密码" />
+                </div>
+
+                <div class="form-group pull-right">
+                    <label>初始密码确认：</label>
+                    <input type="password" class="form-control" ng-model="AddItem.rePassword" placeholder="请再次输入初始密码" />
+                </div>
+
+                <div class="form-group pull-left">
+                    <label>头像链接：</label>
+                    <input type="text" class="form-control" ng-model="AddItem.PhotoUrl" placeholder="请输入头像链接" />
+                </div>
+
+                <div class="form-group pull-right inputcheckboxs">                
+                    <label>角色：</label>
+                    <!-- <input type="text" class="form-control" /> -->
+                    <div class="divcheckboxs">
+                        <input type="checkbox"  ng-true-value="1" ng-false-value="0" ng-model="AddItem.RoleFlag" ng-change="addroleChange(AddItem.RoleFlag)" />设置为高级主管健管师
+                        <!-- </input> -->
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="form-group pull-left">
+                    <label>个人简介：</label>
+                    <!--<textarea type="text" class="form-control" ng-model="AddItem.Introduce" placeholder="请输入个人简介：" />-->
+                    <input type="text" class="form-control" ng-model="AddItem.Introduce" placeholder="请输入个人简介" />
+                </div>
+
+                
+
+                <div class="clearfix"></div>
+            </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" ng-click="AddSubmit()" style="display: none"> 保存并继续添加 </button>
+            <button type="button" class="btn btn-success" ng-click="AddSubmit()" > 保存 </button>
+        </div>
+    </div>
+</div>
+</div>
+
+<!--staffEdit-->
+<div class="modal fade" id="staffEdit" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="btnCloseEditPannel" type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                <h4 class="modal-title">编辑员工</h4>
+            </div>
+            <div class="modal-body clearfix">
+                <div class="form-group pull-left">
+                    <label>姓名：</label>
+                    <input type="text" class="form-control" ng-model="CurrentEditItem.UserName"  placeholder="请输入姓名" />
+                </div>
+
+                <div class="form-group pull-right">
+                    <label>服务上限：</label>
+                    <input type="text" class="form-control" ng-model="CurrentEditItem.ServiceLimit" placeholder="请输入服务上限" />
+                </div>
+
+                <div class="form-group pull-right" style="display: none;">
+                    <label>人员ID：</label>
+                    <input type="text" class="form-control disBackground" ng-model="CurrentEditItem.PersonID"  placeholder="请输入人员ID"  disabled />
+                </div>
+
+                <div class="form-group pull-left">
+                    <label>专长：</label>
+                    <input type="text" class="form-control" ng-model="CurrentEditItem.Speciality"  placeholder="请输入专长" />
+                </div>
+
+                <div class="form-group pull-right">
+                    <label>职称：</label>
+                    <!-- <span ng-bind="CurrentEditItem.PositionCode"></span> -->
+                    <select class="form-control" ng-model="CurrentEditItem.PositionCode" ng-options="s.Code as s.Name for s in postionCategoryItems" ></select>                                    
+                </div>
+
+                <div class="form-group pull-left">
+                    <label>证件号：</label>
+                    <input type="text" class="form-control" ng-model="CurrentEditItem.CertificateCode"  placeholder="请输入身份证号" />
+                </div>
+
+                <div class="form-group pull-right">
+                    <label>手机号：</label>
+                    <input type="text" class="form-control" ng-model="CurrentEditItem.Mobile"  placeholder="请输入手机号" />
+                </div>
+
+                <div class="form-group pull-left">
+                    <label>所属机构名称:</label>
+                    <input type="text" class="form-control disBackground" ng-model="CurrentEditItem.DeptName" disabled />
+                    <!-- <select class="form-control" ng-model="CurrentEditItem.DeptID" ng-options="s.Id as s.Name for s in serviceDeptItems"> -->
+                </div>
+
+                <div class="form-group pull-right">
+                    <label>服务状态:</label>
+                    <select class="form-control" ng-model="CurrentEditItem.JobState" ng-options="s.value as s.text for s in JobTypes"></select>
+                </div>  
+
+                <div class="form-group pull-left">
+                    <label>所属高级主管：</label> 
+                    <select class="form-control supperDoctor" ng-model="CurrentEditItem.PId" ng-options="s.ID as s.Name for s in otherDoctorArray"></select>              
+                </div>
+
+                <!-- <div class="form-group pull-right">
+                    <label>服务上限：</label>
+                    <input type="text" class="form-control" ng-model="CurrentEditItem.ServiceLimit" placeholder="请输入服务上限" />
+                </div> -->
+
+                <div class="form-group pull-right inputcheckboxs">                   
+                    <label>角色：</label>
+                    <input type="text" class="form-control" />
+                    <div class="divcheckboxs">
+                        <input type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="CurrentEditItem.RoleFlag" ng-change="editroleChange(CurrentEditItem.RoleFlag)" />设置为高级主管健管师
+                        <!-- </input> -->
+                    </div>
+                </div>
+                <div class="form-group pull-left">
+                    <label>头像链接：</label>
+                    <input type="text" class="form-control" ng-model="CurrentEditItem.PhotoUrl" placeholder="请输入头像链接" />
+                </div>
+                <!-- <div class="clearfix"></div> -->
+
+                <div class="form-group pull-right">
+                    <label>个人简介：</label>
+                    <input type="text" class="form-control" ng-model="CurrentEditItem.Introduce" placeholder="请输入个人简介" />
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="EditSubmit()"> 保存 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- disable-->
+<div class="modal fade" id="disable" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content disable">
+            <div class="modal-body text-center">
+                <h3 ng-bind="OffText"></h3>
+                  <button type="button" class="btn btn-warning" data-dismiss="modal">取消</button>
+                  <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="OffStuffSubmit()">确定</button>       
+            </div>
+        </div>
+    </div>
+</div>
+
